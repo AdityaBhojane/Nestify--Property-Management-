@@ -20,7 +20,7 @@ export default function SignInForm({
               <div className="flex flex-col items-center text-center">
                 <h1 className="text-2xl font-bold">Welcome back</h1>
                 <p className="text-balance text-muted-foreground">
-                  Login to your Acme Inc account
+                  Login to your Nestify account
                 </p>
               </div>
               <div className="grid gap-2">
@@ -64,7 +64,7 @@ export default function SignInForm({
                   Login with Google
                 </Button>
               </div>
-              <div className="text-center text-sm">
+              <div className="text-center text-sm font-thin">
                 Don&apos;t have an account?{" "}
                 <span onClick={()=>navigate('/signup')} className="underline underline-offset-4 cursor-pointer">
                   Sign up

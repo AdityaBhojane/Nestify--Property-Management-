@@ -25,22 +25,22 @@ const data = {
         {
             title: "Properties",
             url: "/properties",
-            icon:<LandPlot/>
+            icon: <LandPlot />
         },
         {
             title: "Agent",
             url: "/agents",
-            icon:<User/>
+            icon: <User />
         },
         {
             title: "Messages",
             url: "/messages",
-            icon:<MessageSquareText/>
+            icon: <MessageSquareText />
         },
         {
             title: "My Profile",
             url: "/profile",
-            icon:<CircleUserRound/>
+            icon: <CircleUserRound />
         },
     ],
 }
@@ -48,47 +48,47 @@ const data = {
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     return (
         <>
-        <Sidebar {...props}>
-            <SidebarHeader>
-                <SidebarMenu>
-                    <SidebarMenuItem>
-                        <SidebarMenuButton size="lg" asChild>
-                            <a href="#">
-                                <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
-                                    <School className="size-4" />
-                                </div>
-                                <div className="flex flex-col gap-0.5 leading-none">
-                                    <span className="font-semibold text-lg">Nestify Home</span>
-                                </div>
-                            </a>
-                        </SidebarMenuButton>
-                    </SidebarMenuItem>
-                </SidebarMenu>
-            </SidebarHeader>
-            <SidebarContent>
-                <SidebarGroup>
+            <Sidebar {...props}>
+                <SidebarHeader>
                     <SidebarMenu>
-                        {data.navMain.map((item) => (
-                            <Link to={item.url}>
-                            <SidebarMenuItem key={item.title}>
-                                <SidebarMenuButton asChild>
-                                    <div className="flex items-center my-2 py-7">
-                                        <span>
-                                            {item?.icon}
-                                        </span>
-                                        <Link to={item.url} className="font-medium text-lg text-[#ccc]">
-                                            {item.title}
-                                        </Link>
+                        <SidebarMenuItem>
+                            <SidebarMenuButton size="lg" asChild>
+                                <a href="#">
+                                    <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
+                                        <School className="size-4" />
                                     </div>
-                                </SidebarMenuButton>
-                            </SidebarMenuItem>
-                            </Link>
-                        ))}
+                                    <div className="flex flex-col gap-0.5 leading-none">
+                                        <span className="font-semibold text-lg">Nestify Home</span>
+                                    </div>
+                                </a>
+                            </SidebarMenuButton>
+                        </SidebarMenuItem>
                     </SidebarMenu>
-                </SidebarGroup>
-            </SidebarContent>
-            <SidebarRail />
-        </Sidebar>
+                </SidebarHeader>
+                <SidebarContent>
+                    <SidebarGroup>
+                        <SidebarMenu>
+                            {data.navMain.map((item) => (
+                                <Link to={item.url}>
+                                    <SidebarMenuItem key={item.title}>
+                                        <SidebarMenuButton asChild>
+                                            <div className={`flex items-center my-2 py-7 ${location.pathname === item.url? "text-blue-500 bg-blue-200 dark:bg-blue-900 font-semibold": "hover:text-blue-400"}`}>
+                                                <span>
+                                                    {item?.icon}
+                                                </span>
+                                                <Link to={item.url} className="font-medium text-lg text-[#8b8b8b]">
+                                                    {item.title}
+                                                </Link>
+                                            </div>
+                                        </SidebarMenuButton>
+                                    </SidebarMenuItem>
+                                </Link>
+                            ))}
+                        </SidebarMenu>
+                    </SidebarGroup>
+                </SidebarContent>
+                <SidebarRail />
+            </Sidebar>
         </>
     )
 }

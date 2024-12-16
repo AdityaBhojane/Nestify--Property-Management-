@@ -22,7 +22,7 @@ export function AgentCard({
   imageUrl,
 }: AgentCardProps) {
   return (
-    <Card className="flex flex-col md:flex-row items-center p-4 gap-6 shadow-sm">
+    <Card className="flex md:flex-row items-center p-4 m-2 gap-6 shadow-sm">
       {/* Avatar Section */}
       <Avatar className="w-32 h-32 rounded-md">
         <AvatarImage src={imageUrl} alt={name} />
@@ -32,8 +32,8 @@ export function AgentCard({
       {/* Content Section */}
       <CardContent className="flex-1 p-0">
         <CardHeader className="p-0 mb-2">
-          <CardTitle className="text-xl text-center md:text-left">{name}</CardTitle>
-          <p className="text-sm text-gray-500 text-center md:text-left">{role}</p>
+          <CardTitle className="text-xl  md:text-left">{name}</CardTitle>
+          <p className="text-sm text-gray-500 md:text-left">{role}</p>
         </CardHeader>
 
         {/* Details */}

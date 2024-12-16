@@ -1,7 +1,15 @@
+import { ChatSideBar } from "@/components/ChatSiderBar/ChatSideBar";
+import { ChatWindow } from "@/components/ChatWindow.tsx/ChatWindow";
 
 
-export default function MessagePanel() {
+
+const MessagePanel = () => {
   return (
-    <div>MessagePanel</div>
-  )
-}
+    <div className="flex h-[calc(100vh-4rem)]">
+      <ChatSideBar />
+      <ChatWindow />
+    </div>
+  );
+};
+
+export default MessagePanel;

@@ -17,22 +17,32 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart"
+
+// const chartData = [
+//   { month: "January", desktop: 186, mobile: 80 },
+//   { month: "February", desktop: 305, mobile: 200 },
+//   { month: "March", desktop: 237, mobile: 120 },
+//   { month: "April", desktop: 73, mobile: 190 },
+//   { month: "May", desktop: 209, mobile: 130 },
+//   { month: "June", desktop: 214, mobile: 140 },
+// ]
+
 const chartData = [
-  { month: "January", desktop: 186, mobile: 80 },
-  { month: "February", desktop: 305, mobile: 200 },
-  { month: "March", desktop: 237, mobile: 120 },
-  { month: "April", desktop: 73, mobile: 190 },
-  { month: "May", desktop: 209, mobile: 130 },
-  { month: "June", desktop: 214, mobile: 140 },
+  { price: "0", rent: 16, sale: 80 },
+  { price: "50", rent: 186, sale: 65},
+  { price: "100", rent: 6, sale: 77 },
+  { price: "250", rent: 44, sale: 88 },
+  { price: "500", rent: 18, sale: 22 },
+  { price: "500", rent: 186, sale: 80 },
 ]
 
 const chartConfig = {
-  desktop: {
-    label: "Desktop",
+  rent: {
+    label: "Rent",
     color: "hsl(var(--chart-1))",
   },
-  mobile: {
-    label: "Mobile",
+  sale: {
+    label: "Sale",
     color: "hsl(var(--chart-2))",
   },
 } satisfies ChartConfig
@@ -41,9 +51,9 @@ export function Chart() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Area Chart - Gradient</CardTitle>
+        <CardTitle>Properties Types & Price Range </CardTitle>
         <CardDescription>
-          Showing total visitors for the last 6 months
+          Showing total rants/sales with price range
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -58,7 +68,7 @@ export function Chart() {
           >
             <CartesianGrid vertical={false} />
             <XAxis
-              dataKey="month"
+              dataKey="price"
               tickLine={false}
               axisLine={false}
               tickMargin={8}
@@ -66,45 +76,45 @@ export function Chart() {
             />
             <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
             <defs>
-              <linearGradient id="fillDesktop" x1="0" y1="0" x2="0" y2="1">
+              <linearGradient id="fillRent" x1="0" y1="0" x2="0" y2="1">
                 <stop
                   offset="5%"
-                  stopColor="var(--color-desktop)"
+                  stopColor="var(--color-rent)"
                   stopOpacity={0.8}
                 />
                 <stop
                   offset="95%"
-                  stopColor="var(--color-desktop)"
+                  stopColor="var(--color-rent)"
                   stopOpacity={0.1}
                 />
               </linearGradient>
-              <linearGradient id="fillMobile" x1="0" y1="0" x2="0" y2="1">
+              <linearGradient id="fillSale" x1="0" y1="0" x2="0" y2="1">
                 <stop
                   offset="5%"
-                  stopColor="var(--color-mobile)"
+                  stopColor="var(--color-sale)"
                   stopOpacity={0.8}
                 />
                 <stop
                   offset="95%"
-                  stopColor="var(--color-mobile)"
+                  stopColor="var(--color-sale)"
                   stopOpacity={0.1}
                 />
               </linearGradient>
             </defs>
             <Area
-              dataKey="mobile"
+              dataKey="sale"
               type="natural"
-              fill="url(#fillMobile)"
+              fill="url(#fillSale)"
               fillOpacity={0.4}
-              stroke="var(--color-mobile)"
+              stroke="var(--color-sale)"
               stackId="a"
             />
             <Area
-              dataKey="desktop"
+              dataKey="rent"
               type="natural"
-              fill="url(#fillDesktop)"
+              fill="url(#fillRent)"
               fillOpacity={0.4}
-              stroke="var(--color-desktop)"
+              stroke="var(--color-rent)"
               stackId="a"
             />
           </AreaChart>
@@ -117,7 +127,7 @@ export function Chart() {
               Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
             </div>
             <div className="flex items-center gap-2 leading-none text-muted-foreground">
-              January - June 2024
+             $50K - $500K +
             </div>
           </div>
         </div>

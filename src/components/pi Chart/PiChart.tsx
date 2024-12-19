@@ -13,22 +13,26 @@ import {
   CardContent,
 } from "@/components/ui/card"
 import { ChartConfig, ChartContainer } from "@/components/ui/chart"
-const chartData = [
-  { browser: "safari", visitors: 200, fill: "var(--color-safari)" },
-]
-
-const chartConfig = {
-  visitors: {
-    label: "Visitors",
-  },
-  safari: {
-    label: "Safari",
-    color: "hsl(var(--chart-2))",
-  },
-} satisfies ChartConfig
 
 
-export function PiChart({title}:{title:string}) {
+
+
+export function PiChart({title,color,count,angle}:{title:string,color:string,count:number,angle:number}) {
+  const chartData = [
+    { browser: "safari", visitors: count, fill: "var(--color-safari)" },
+  ]
+  
+  const chartConfig = {
+    visitors: {
+      label: "data",
+    },
+    safari: {
+      label: "Safari",
+      color: color,
+    },
+  } satisfies ChartConfig
+
+
   return (
     <Card className="flex ">
       <CardContent className="flex-1 pb-0">
@@ -39,7 +43,7 @@ export function PiChart({title}:{title:string}) {
           <RadialBarChart
             data={chartData}
             startAngle={0}
-            endAngle={250}
+            endAngle={angle}
             innerRadius={70}
             outerRadius={100}
           >

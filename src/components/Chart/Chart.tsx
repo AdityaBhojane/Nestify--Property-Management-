@@ -28,12 +28,12 @@ import {
 // ]
 
 const chartData = [
-  { price: "0", rent: 16, sale: 80 },
-  { price: "50", rent: 186, sale: 65},
-  { price: "100", rent: 6, sale: 77 },
-  { price: "250", rent: 44, sale: 88 },
-  { price: "500", rent: 18, sale: 22 },
-  { price: "500", rent: 186, sale: 80 },
+  { price: "0K", rent: 16, sale: 80 },
+  { price: "50K", rent: 186, sale: 65},
+  { price: "100k", rent: 6, sale: 77 },
+  { price: "250K", rent: 44, sale: 88 },
+  { price: "500K", rent: 18, sale: 22 },
+  { price: "550k+", rent: 186, sale: 80 },
 ]
 
 const chartConfig = {

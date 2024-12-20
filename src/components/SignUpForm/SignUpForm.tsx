@@ -5,12 +5,52 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import loginImage from "@/assets/login.webp"
 import { useNavigate } from "react-router-dom"
+import { MouseEvent, useEffect, useState } from "react"
+import useSignup from "@/hooks/apis/auth/useSignup"
+
+import { Loader2 } from "lucide-react"
 
 export default function SignUpForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
-  const navigate = useNavigate()  
+  const navigate = useNavigate();
+
+  const {isPending,isSuccess,signUpMutation} = useSignup();
+  const [validation,setValidation] = useState(false);
+
+  const [form,setForm] = useState({
+    username:'',
+    email:'',
+    password:''
+  });
+
+
+  const handleSubmit = async(e:MouseEvent<HTMLButtonElement>)=>{
+    e.preventDefault();
+    console.log(form);
+    if(!form.username|| !form.email || !form.password){
+      console.log("all fields are required");
+      setValidation(true);
+      return;
+    };
+    signUpMutation({
+      username:form.username,
+      email:form.email,
+      password:form.password
+    })
+
+  };
+
+  useEffect(()=>{
+    if(isSuccess){
+      setTimeout(() => {
+        navigate('/signin')
+      }, 3000);
+    };
+
+  },[isSuccess,navigate])
+
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card className="overflow-hidden">
@@ -29,6 +69,7 @@ export default function SignUpForm({
                   type="text"
                   placeholder="Enter your username"
                   required
+                  onChange={(e)=> setForm({...form,username:e.target.value})}
                 />
               </div>
               <div className="grid gap-2">
@@ -38,6 +79,7 @@ export default function SignUpForm({
                   type="email"
                   placeholder="m@example.com"
                   required
+                  onChange={(e)=> setForm({...form,email:e.target.value})}
                 />
               </div>
               <div className="grid gap-2">
@@ -50,10 +92,14 @@ export default function SignUpForm({
                     Forgot your password?
                   </a>
                 </div>
-                <Input id="password" type="password" placeholder="Enter your password" required />
+                <Input id="password" type="password" placeholder="Enter your password" required onChange={(e)=> setForm({...form,password:e.target.value})} />
+              </div> 
+              <div className="w-full h-2">
+                {validation && <p className="text-sm text-red-600 font-semibold">All fields are required</p>}
               </div>
-              <Button type="submit" className="w-full">
-                Login
+              <Button onClick={handleSubmit} type="submit" className="w-full">
+                Sign Up
+                {isPending && <Loader2 className="animate-spin" />}
               </Button>
               <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
                 <span className="relative z-10 bg-background px-2 text-muted-foreground">

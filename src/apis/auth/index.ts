@@ -1,7 +1,7 @@
 import axios from '../../config/axiosConfig'
 
 interface Idata {
-    username:string,
+    username?:string,
     email:string,
     password:string
 }
@@ -22,7 +22,7 @@ export const signUpRequest = async({username,email,password}:Idata)=>{
 
 export const signInRequest = async({email,password}:Idata)=>{
     try {
-        const response = await axios.post('/auth/signup',{
+        const response = await axios.post('/auth/signin',{
             email,
             password
         });
@@ -35,7 +35,7 @@ export const signInRequest = async({email,password}:Idata)=>{
 
 export const signUpAdminRequest = async({email,password}:Idata)=>{
     try {
-        const response = await axios.post('/auth/signup',{
+        const response = await axios.post('/auth/admin',{
             email,
             password
         });

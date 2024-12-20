@@ -5,14 +5,51 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import loginImage from "@/assets/login.webp"
 import { useNavigate } from "react-router-dom"
+import { OtpModel } from "../OTP Model/OtpModel"
+import { MouseEvent, useEffect, useState } from "react"
+import useSignin from "@/hooks/apis/auth/useSignin"
+import { Loader2 } from "lucide-react"
+
 
 export default function SignInForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
-    const navigate = useNavigate()
+    const navigate = useNavigate();
+    const [validation,setValidation] = useState(false);
+    const [openModel, setOpenModel] = useState(false)
+    const [form, setForm] = useState({
+      email:'',
+      password:''
+    });
+
+    const {isPending, isSuccess, SigninMutation} = useSignin()
+
+    const handleSignin = async(e:MouseEvent<HTMLButtonElement>)=>{
+      e.preventDefault();
+      if(!form.email || !form.password){
+        console.log('username and password is required');
+        setValidation(true)
+        return;
+      };
+      setValidation(false);
+      SigninMutation({
+        email:form.email,
+        password:form.password
+      })
+    }
+
+    useEffect(()=>{
+      if(isSuccess){
+        setTimeout(() => {
+          setOpenModel(true)
+        }, 2000);
+      }
+    },[isSuccess])
+
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
+      <OtpModel model={openModel} setModel={setOpenModel}/>
       <Card className="overflow-hidden">
         <CardContent className="grid p-0 md:grid-cols-2">
           <form className="p-6 md:p-8">
@@ -30,6 +67,7 @@ export default function SignInForm({
                   type="email"
                   placeholder="m@example.com"
                   required
+                  onChange={(e)=> setForm({...form,email:e.target.value})}
                 />
               </div>
               <div className="grid gap-2">
@@ -42,11 +80,18 @@ export default function SignInForm({
                     Forgot your password?
                   </a>
                 </div>
-                <Input id="password" type="password" required />
+                <Input id="password" type="password" required onChange={(e)=> setForm({...form,password:e.target.value})} />
               </div>
-              <Button type="submit" className="w-full">
-                Login
-              </Button>
+              <div className="w-full h-2">
+                {validation && <p className="text-sm text-red-600 ">username and password is required</p>}
+              </div>
+                <Button
+                 onClick={handleSignin}
+                 type="submit" 
+                 className="w-full">
+                    Sign in
+                    {isPending && <Loader2 className="animate-spin" />}
+                </Button>
               <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
                 <span className="relative z-10 bg-background px-2 text-muted-foreground">
                   Or continue with

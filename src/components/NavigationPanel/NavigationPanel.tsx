@@ -1,5 +1,5 @@
 import * as React from "react"
-import { CircleUserRound, LandPlot, LayoutDashboard, MessageSquareText, School, User } from "lucide-react"
+import { CircleUserRound, LandPlot, LayoutDashboard, LogIn, LogOut, MessageSquareText, School, User } from "lucide-react"
 
 import {
     Sidebar,
@@ -42,6 +42,18 @@ const data = {
             url: "/profile",
             icon: <CircleUserRound />
         },
+        {
+            title: "Login as Admin",
+            url: "/",
+            icon: <LogIn />,
+            style:"text-green-500"
+        },
+        {
+            title: "Logout",
+            url: "/signin",
+            icon: <LogOut />,
+            style:"text-red-500 "
+        },
     ],
 }
 
@@ -53,14 +65,14 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                     <SidebarMenu>
                         <SidebarMenuItem>
                             <SidebarMenuButton size="lg" asChild>
-                                <a href="#">
+                                <span >
                                     <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
                                         <School className="size-4" />
                                     </div>
                                     <div className="flex flex-col gap-0.5 leading-none">
                                         <span className="font-semibold text-lg">Nestify Home</span>
                                     </div>
-                                </a>
+                                </span>
                             </SidebarMenuButton>
                         </SidebarMenuItem>
                     </SidebarMenu>
@@ -68,15 +80,15 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 <SidebarContent>
                     <SidebarGroup>
                         <SidebarMenu>
-                            {data.navMain.map((item) => (
-                                <Link to={item.url}>
+                            {data.navMain.map((item,index) => (
+                                <Link key={index} to={item.url}>
                                     <SidebarMenuItem key={item.title}>
                                         <SidebarMenuButton asChild>
                                             <div className={`flex items-center my-2 py-7 ${location.pathname === item.url? "text-blue-500 bg-blue-200 dark:bg-blue-900 font-semibold": "hover:text-blue-400"}`}>
                                                 <span>
                                                     {item?.icon}
                                                 </span>
-                                                <Link to={item.url} className="font-medium text-lg text-[#8b8b8b]">
+                                                <Link to={item.url} className={`font-medium text-lg text-[#8b8b8b] ${item?.style}`}>
                                                     {item.title}
                                                 </Link>
                                             </div>

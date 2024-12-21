@@ -79,12 +79,14 @@ export const deleteProperty = async ({userId, propertyId}:{userId:string, proper
 }
 
 
-export const getProperty = async () => {
+export const getProperty = async (token:string) => {
     try {
-        const response = axios.post('/property/create', {
-
+        const response = axios.get('/property',{
+            headers:{
+                'token':token
+            }
         });
-        return response
+        return (await response).data?.data
     } catch (error) {
         console.log("get property ERROR ::-", error);
         throw error

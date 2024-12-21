@@ -3,26 +3,27 @@ import Cookies from 'js-cookie'
 
 
 const initialState = {
-    user:null,
-    isAuthenticated:false
+    user: null,
+    token: Cookies.get('token') || null 
 };
 
 const authSlice = createSlice({
-    name:'auth',
+    name: 'auth',
     initialState,
-    reducers:{
-        setAuthData(state,action){
+    reducers: {
+        setAuthData(state, action) {
             state.user = action.payload.user;
-            state.isAuthenticated = false;
-            Cookies.set('token',action.payload.token)
+            state.token = action.payload.token; 
+            Cookies.set('token', action.payload.token);
         },
-        clearAuthData(state){
+        clearAuthData(state) {
             state.user = null;
-            state.isAuthenticated = false;
-            Cookies.remove('token')
+            state.token = null;
+            Cookies.remove('token');
         }
     },
 });
 
-export const {setAuthData, clearAuthData} = authSlice.actions;
+export const { setAuthData, clearAuthData } = authSlice.actions;
 export default authSlice.reducer;
+

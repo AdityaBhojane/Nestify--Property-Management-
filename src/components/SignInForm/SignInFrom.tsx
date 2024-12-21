@@ -5,10 +5,11 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import loginImage from "@/assets/login.webp"
 import { useNavigate } from "react-router-dom"
-import { OtpModel } from "../OTP Model/OtpModel"
 import { MouseEvent, useEffect, useState } from "react"
 import useSignin from "@/hooks/apis/auth/useSignin"
 import { Loader2 } from "lucide-react"
+import { useDispatch } from "react-redux"
+import { setAuthData } from "@/redux/slice/authSlice"
 
 
 export default function SignInForm({
@@ -17,13 +18,14 @@ export default function SignInForm({
 }: React.ComponentProps<"div">) {
     const navigate = useNavigate();
     const [validation,setValidation] = useState(false);
-    const [openModel, setOpenModel] = useState(false)
+    const dispatch = useDispatch();
+
     const [form, setForm] = useState({
       email:'',
       password:''
     });
 
-    const {isPending, isSuccess, SigninMutation} = useSignin()
+    const {data,isPending, isSuccess, SigninMutation} = useSignin()
 
     const handleSignin = async(e:MouseEvent<HTMLButtonElement>)=>{
       e.preventDefault();
@@ -39,17 +41,20 @@ export default function SignInForm({
       })
     }
 
-    useEffect(()=>{
-      if(isSuccess){
-        setTimeout(() => {
-          setOpenModel(true)
-        }, 2000);
-      }
-    },[isSuccess])
+     useEffect(()=>{
+        if(isSuccess){
+          dispatch(setAuthData({user:data?.username,token:data?.token}))
+          setTimeout(() => {
+            navigate('/dashboard')
+          }, 3000);
+        };
+    
+      },[isSuccess,navigate])
+   
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
-      <OtpModel model={openModel} setModel={setOpenModel}/>
+      
       <Card className="overflow-hidden">
         <CardContent className="grid p-0 md:grid-cols-2">
           <form className="p-6 md:p-8">

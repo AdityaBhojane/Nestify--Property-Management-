@@ -13,7 +13,7 @@ export const signUpRequest = async({username,email,password}:Idata)=>{
             email,
             password
         });
-        return response
+        return response.data?.data
     } catch (error) {
         console.log("sign up ERROR ::-" , error);
         throw error
@@ -26,7 +26,7 @@ export const signInRequest = async({email,password}:Idata)=>{
             email,
             password
         });
-        return response
+        return response.data?.data
     } catch (error) {
         console.log("sign in ERROR ::-" , error);
         throw error
@@ -39,7 +39,7 @@ export const signUpAdminRequest = async({email,password}:Idata)=>{
             email,
             password
         });
-        return response
+        return response.data?.data
     } catch (error) {
         console.log("sign up admin ERROR ::-" , error);
         throw error
@@ -51,7 +51,7 @@ export const OTPRequest = async({id,otp}:{id:string, otp:string})=>{
         const response = await axios.post(`/auth/otp/${id}`,{
             otp:otp
         });
-        return response
+        return response.data?.data
     } catch (error) {
         console.log("otp ERROR ::-" , error);
         throw error

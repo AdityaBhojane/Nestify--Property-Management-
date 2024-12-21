@@ -10,11 +10,12 @@ import {
     DialogTitle,
 } from "@/components/ui/dialog"
 import { InputOTPDemo } from "./InputOTP"
-import { MouseEvent, useState } from "react"
+import { MouseEvent, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom";
 import useOTP from "@/hooks/apis/auth/userOTP";
+import { Loader2 } from "lucide-react";
 
-export function OtpModel({ model, setModel }: { model: boolean, setModel: React.Dispatch<React.SetStateAction<boolean>> }) {
+export function OtpModel({ model, setModel, userId }: { model: boolean, setModel: React.Dispatch<React.SetStateAction<boolean>>, userId:string }) {
     const [otp, setOtp] = useState<string>("")
     const navigate = useNavigate();
     const [validation, setValidation] = useState(false);
@@ -27,13 +28,22 @@ export function OtpModel({ model, setModel }: { model: boolean, setModel: React.
             return;
         };
         setValidation(false);
-        // OtpMutation({id,otp})
-    }
+        OtpMutation({id:userId,otp})
+    };
+
+    useEffect(()=>{
+    if(isSuccess && data.response){
+      setTimeout(() => {
+        navigate('/signin')
+      }, 3000);
+    };
+
+  },[isSuccess,navigate,data])
 
 
     return (
         <Dialog
-            open={true}
+            open={model}
             onOpenChange={setModel}
         >
             <DialogContent className="sm:max-w-md">
@@ -56,6 +66,7 @@ export function OtpModel({ model, setModel }: { model: boolean, setModel: React.
                     <DialogClose asChild>
                         <Button onClick={handleOtpSubmit} type="button" variant="outline">
                             Submit
+                            {isPending && <Loader2 className="animate-spin" />}
                         </Button>
                     </DialogClose>
                 </DialogFooter>

@@ -12,8 +12,8 @@ const useOTP = ()=>{
         onSuccess:(data)=>{
             console.log('data',data);
             toast({
-                title:"Sign in successful",
-                description:"redirecting to home page ..."
+                title:"validation successful",
+                description:"redirecting to sign in page ..."
             })
         },
         onError:(error)=>{

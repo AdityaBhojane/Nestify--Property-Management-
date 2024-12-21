@@ -7,7 +7,7 @@ import { useMutation } from '@tanstack/react-query'
 const useSignup = ()=>{
     const {toast} = useToast();
     
-    const { isPending, isSuccess, error, mutateAsync:signUpMutation} = useMutation({
+    const { data,isPending, isSuccess, error, mutateAsync:signUpMutation} = useMutation({
         mutationFn:signUpRequest,
         onSuccess:(data)=>{
             console.log("data", data);
@@ -28,7 +28,8 @@ const useSignup = ()=>{
         isPending,
         isSuccess,
         error,
-        signUpMutation
+        signUpMutation,
+        data
     }
 };
 

@@ -9,6 +9,7 @@ import { MouseEvent, useEffect, useState } from "react"
 import useSignup from "@/hooks/apis/auth/useSignup"
 
 import { Loader2 } from "lucide-react"
+import { OtpModel } from "../OTP Model/OtpModel"
 
 export default function SignUpForm({
   className,
@@ -16,9 +17,9 @@ export default function SignUpForm({
 }: React.ComponentProps<"div">) {
   const navigate = useNavigate();
 
-  const {isPending,isSuccess,signUpMutation} = useSignup();
+  const {data,isPending,isSuccess,signUpMutation} = useSignup();
   const [validation,setValidation] = useState(false);
-
+  const [openModel, setOpenModel] = useState(false)
   const [form,setForm] = useState({
     username:'',
     email:'',
@@ -28,7 +29,6 @@ export default function SignUpForm({
 
   const handleSubmit = async(e:MouseEvent<HTMLButtonElement>)=>{
     e.preventDefault();
-    console.log(form);
     if(!form.username|| !form.email || !form.password){
       console.log("all fields are required");
       setValidation(true);
@@ -45,14 +45,16 @@ export default function SignUpForm({
   useEffect(()=>{
     if(isSuccess){
       setTimeout(() => {
-        navigate('/signin')
-      }, 3000);
-    };
+        setOpenModel(true)
+      }, 2000);
+    }
+  },[isSuccess,data])
 
-  },[isSuccess,navigate])
+ 
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
+      <OtpModel model={openModel} setModel={setOpenModel} userId={data?.id}/>
       <Card className="overflow-hidden">
         <CardContent className="grid p-0 md:grid-cols-2">
           <form className="p-6 md:p-8">

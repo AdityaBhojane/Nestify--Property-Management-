@@ -6,6 +6,7 @@ import { PiChart } from "@/components/pi Chart/PiChart";
 
 
 export default function Dashboard() {
+
   return (
     <>
       <div className="flex flex-1 flex-col gap-4 p-4">
@@ -16,7 +17,7 @@ export default function Dashboard() {
           </div>
           <div className="grid auto-rows-min gap-4 grid-cols-4 max-lg:grid-cols-2 max-sm:grid-cols-1">
           <div className="min-w-52">
-            <PiChart title={"Total Customers"} color={"#708090"} count={12} angle={50}/>
+            <PiChart title={"Total Customers"} color={"#708090"} count={12} angle={60}/>
           </div>
           <div className="min-w-52">
             <PiChart title={"Total Properties"}  color={"#4682B4"} count={30} angle={190}/>

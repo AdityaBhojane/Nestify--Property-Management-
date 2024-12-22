@@ -17,13 +17,8 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart"
-const chartData = [
-  { property: "apartments", Types: 275, fill: "var(--color-apartments)" },
-  { property: "villa", Types: 200, fill: "var(--color-villa)" },
-  { property: "Office", Types: 187, fill: "var(--color-Office)" },
-  { property: "Shops", Types: 173, fill: "var(--color-Shops)" },
-  { property: "Plot", Types: 90, fill: "var(--color-Plot)" },
-]
+import { useEffect, useState } from "react"
+
 
 
 
@@ -51,9 +46,35 @@ const chartConfig = {
     label: "Apart...",
     color: "hsl(var(--chart-5))",
   },
-} satisfies ChartConfig
+} satisfies ChartConfig;
 
-export function BarChartMix() {
+type Statistic = { id?: string; count?: number };
+
+export function BarChartMix({statistic}:{statistic:Statistic[]}) {
+
+  const [chartData, setChartData] = useState([
+    { property: "apartments", Types: 0, fill: "var(--color-apartments)" },
+    { property: "villa", Types: 0, fill: "var(--color-villa)" },
+    { property: "Office", Types: 0, fill: "var(--color-Office)" },
+    { property: "Shops", Types: 0, fill: "var(--color-Shops)" },
+    { property: "Plot", Types: 0, fill: "var(--color-Plot)" },
+  ]);
+
+
+  useEffect(() => { 
+    if(statistic && statistic.length > 0) { 
+      const newChartData = [ 
+        { property: 'apartments', Types: statistic[0]?.count || 0, fill: 'var(--color-apartments)' }, 
+        { property: 'villa', Types: statistic[1]?.count || 0, fill: 'var(--color-villa)' }, 
+        { property: 'Office', Types: statistic[2]?.count || 0, fill: 'var(--color-Office)' }, 
+        { property: 'Shops', Types: statistic[3]?.count || 0, fill: 'var(--color-Shops)' }, 
+        { property: 'Plot', Types: statistic[4]?.count || 0, fill: 'var(--color-Plot)' }, 
+      ]; 
+      setChartData(newChartData); 
+    } 
+  }, [statistic]);
+
+
   return (
     <Card>
       <CardHeader>

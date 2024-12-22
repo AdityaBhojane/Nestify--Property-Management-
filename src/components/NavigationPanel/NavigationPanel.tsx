@@ -12,52 +12,59 @@ import {
     SidebarRail,
 } from "@/components/ui/sidebar"
 import { Link } from "react-router-dom"
+import { useDispatch } from "react-redux"
+import { clearAuthData } from "@/redux/slice/authSlice"
 
 
-// This is sample data.
-const data = {
-    navMain: [
-        {
-            title: "Dashboard",
-            url: "/dashboard",
-            icon: <LayoutDashboard />
-        },
-        {
-            title: "Properties",
-            url: "/properties",
-            icon: <LandPlot />
-        },
-        {
-            title: "Agent",
-            url: "/agents",
-            icon: <User />
-        },
-        {
-            title: "Messages",
-            url: "/messages",
-            icon: <MessageSquareText />
-        },
-        {
-            title: "My Profile",
-            url: "/profile",
-            icon: <CircleUserRound />
-        },
-        {
-            title: "Login as Admin",
-            url: "/",
-            icon: <LogIn />,
-            style:"text-green-500"
-        },
-        {
-            title: "Logout",
-            url: "/signin",
-            icon: <LogOut />,
-            style:"text-red-500 "
-        },
-    ],
-}
+
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+    const dispatch = useDispatch();
+    // This is sample data.
+    const data = {
+        navMain: [
+            {
+                title: "Dashboard",
+                url: "/dashboard",
+                icon: <LayoutDashboard />
+            },
+            {
+                title: "Properties",
+                url: "/properties",
+                icon: <LandPlot />
+            },
+            {
+                title: "Agent",
+                url: "/agents",
+                icon: <User />
+            },
+            {
+                title: "Messages",
+                url: "/messages",
+                icon: <MessageSquareText />
+            },
+            {
+                title: "My Profile",
+                url: "/profile",
+                icon: <CircleUserRound />
+            },
+            {
+                title: "Login as Admin",
+                url: "/",
+                icon: <LogIn />,
+                style:"text-green-500"
+            },
+            {
+                title: "Logout",
+                url: "/signin",
+                icon: <LogOut />,
+                style:"text-red-500 ",
+                event:()=>{
+                    dispatch(clearAuthData())
+                }
+            },
+        ],
+    }
     return (
         <>
             <Sidebar {...props}>
@@ -81,16 +88,16 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                     <SidebarGroup>
                         <SidebarMenu>
                             {data.navMain.map((item,index) => (
-                                <Link key={index} to={item.url}>
+                                <Link key={index} to={item.url} onClick={item?.event}>
                                     <SidebarMenuItem key={item.title}>
                                         <SidebarMenuButton asChild>
                                             <div className={`flex items-center my-2 py-7 ${location.pathname === item.url? "text-blue-500 bg-blue-200 dark:bg-blue-900 font-semibold": "hover:text-blue-400"}`}>
                                                 <span>
                                                     {item?.icon}
                                                 </span>
-                                                <Link to={item.url} className={`font-medium text-lg text-[#8b8b8b] ${item?.style}`}>
+                                                <p className={`font-medium text-lg text-[#8b8b8b] ${item?.style}`}>
                                                     {item.title}
-                                                </Link>
+                                                </p>
                                             </div>
                                         </SidebarMenuButton>
                                     </SidebarMenuItem>

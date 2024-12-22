@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 
 export const useGetProperties = ()=>{
     const token = useSelector((state:RootState) => state.auth.token);
-    const {data:properties, isPending, isFetching, isError, isSuccess} = useQuery({
+    const {data:properties, isPending, isFetching, isError, isSuccess,error} = useQuery({
         queryFn:()=> getProperty(token as string),
         queryKey:['getProperties'],
         staleTime:30000
@@ -17,6 +17,7 @@ export const useGetProperties = ()=>{
         isPending,
         isFetching,
         isError,
-        isSuccess
+        isSuccess,
+        error
     }
 }

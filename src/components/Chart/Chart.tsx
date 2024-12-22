@@ -17,6 +17,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart"
+import React, { useEffect, useState } from "react"
 
 // const chartData = [
 //   { month: "January", desktop: 186, mobile: 80 },
@@ -27,14 +28,7 @@ import {
 //   { month: "June", desktop: 214, mobile: 140 },
 // ]
 
-const chartData = [
-  { price: "0K", rent: 16, sale: 80 },
-  { price: "50K", rent: 186, sale: 65},
-  { price: "100k", rent: 6, sale: 77 },
-  { price: "250K", rent: 44, sale: 88 },
-  { price: "500K", rent: 18, sale: 22 },
-  { price: "550k+", rent: 186, sale: 80 },
-]
+// const chartData = 
 
 const chartConfig = {
   rent: {
@@ -45,9 +39,43 @@ const chartConfig = {
     label: "Sale",
     color: "hsl(var(--chart-2))",
   },
-} satisfies ChartConfig
+} satisfies ChartConfig;
 
-export function Chart() {
+interface ChartsProps {
+  rent?: number;
+  sale?: number;
+  type?: string;
+}
+
+interface ChartsProps {
+  priceRanges: ChartsProps[];
+}
+export const Chart:React.FC<ChartsProps> = ({priceRanges})=> {
+
+
+  console.log(priceRanges);
+
+  const [chartData, setChartData] = useState([
+    { type: "", rent: 30, sale: 10 },
+    { type: "", rent: 20, sale: 0},
+    { type: "", rent: 30, sale: 10 },
+    { type: "", rent: 70, sale: 30 },
+    { type: "", rent: 30, sale: 60 },
+    { type: "", rent: 40, sale: 40 },
+  ])
+
+  useEffect(() => {
+    if (priceRanges && priceRanges.length > 0) {
+      const newChartData = priceRanges.map((range) => ({
+        type: String(range.type), 
+        rent: range.rent || 0,
+        sale: range.sale || 0,
+      }));
+
+      setChartData(newChartData);
+    }
+  }, [priceRanges]);
+
   return (
     <Card>
       <CardHeader>
@@ -68,11 +96,12 @@ export function Chart() {
           >
             <CartesianGrid vertical={false} />
             <XAxis
-              dataKey="price"
+              dataKey="type"
               tickLine={false}
               axisLine={false}
               tickMargin={8}
-              tickFormatter={(value) => value.slice(0, 3)}
+              interval={0}  
+              padding={{ left: 15, right: 15 }} 
             />
             <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
             <defs>

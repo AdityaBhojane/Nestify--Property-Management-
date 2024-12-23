@@ -50,7 +50,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             },
             {
                 title: "Login as Admin",
-                url: "/",
+                url: "/auth/admin",
                 icon: <LogIn />,
                 style:"text-green-500"
             },

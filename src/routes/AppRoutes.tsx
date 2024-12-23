@@ -1,6 +1,7 @@
 import NavPanelContainer from "@/components/NavigationPanel/NavPanelContainer";
 import ProtectedRoute from "@/components/protectedRoute/ProtectedRoute";
 import AgentPage from "@/pages/Agent/AgentPage";
+import AdminSignIn from "@/pages/Auth/AdminSignIn";
 import SignIn from "@/pages/Auth/SignIn";
 import SignUp from "@/pages/Auth/SignUp";
 import Dashboard from "@/pages/Dashboard/Dashboard";
@@ -16,6 +17,7 @@ export default function AppRoutes() {
       <Routes>
         <Route path="/signup" element={<SignUp />} />
         <Route path="/signin" element={<SignIn />} />
+        <Route path="/auth/admin" element={<AdminSignIn />} />
         <Route path="/dashboard" element={<ProtectedRoute><NavPanelContainer children={<Dashboard />} /></ProtectedRoute>} />
         <Route path="/properties" element={<ProtectedRoute><NavPanelContainer children={<PropertiesPage />} /></ProtectedRoute>} />
         <Route path="/agents" element={<ProtectedRoute><NavPanelContainer children={<AgentPage />} /></ProtectedRoute>} />

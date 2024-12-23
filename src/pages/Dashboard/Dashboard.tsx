@@ -2,14 +2,16 @@ import { BarChartMix } from "@/components/BarChart/BarChartMix";
 import { Chart } from "@/components/Chart/Chart";
 import { PiChart } from "@/components/pi Chart/PiChart";
 import { useStatistic } from "@/hooks/apis/auth/useStatistic";
+import { LoaderCircle } from "lucide-react";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 
 
 
 export default function Dashboard() {
 
-  const {statistic,isError,isFetching,isSuccess} = useStatistic();
+  const {statistic,isError,isFetching} = useStatistic();
 
   const [angle,setAngle] = useState(0);
   const [propertyAngle,setPropertyAngle] = useState(0);
@@ -19,6 +21,7 @@ export default function Dashboard() {
   const customer = parseInt(statistic?.totalCustomers)
   const properties = parseInt(statistic?.totalProperties)
   const cities = parseInt(statistic?.totalCities);
+  const navigate = useNavigate();
 
 
   useEffect(()=>{
@@ -38,6 +41,17 @@ export default function Dashboard() {
   return (
     <>
       <div className="flex flex-1 flex-col gap-4 p-4">
+      {isFetching && <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+        <LoaderCircle className="animate-spin size-10" />
+      </div>}
+      {isError && <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+        <div className="text-center">
+          <h3 className="text-5xl font-bold text-red-600">500</h3>
+          <h4 className="text-2xl mt-4">Internal Server Error</h4>
+          <p className="text-gray-600 mt-2 dark:text-[#ccc]">Oops! Something went wrong on our end.</p>
+          <p><span className="text-md cursor-pointer text-blue-400" onClick={()=> navigate("./login")}>login</span> again</p>
+        </div>
+      </div>} 
         <div className="min-h-[100vh] flex-1 rounded-xl bg-muted/50 md:min-h-min" >
           <div className="grid grid-cols-2 max-md:grid-cols-1">
             <Chart priceRanges={statistic?.priceRanges} />

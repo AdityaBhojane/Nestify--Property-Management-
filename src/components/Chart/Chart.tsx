@@ -52,9 +52,6 @@ interface ChartsProps {
 }
 export const Chart:React.FC<ChartsProps> = ({priceRanges})=> {
 
-
-  console.log(priceRanges);
-
   const [chartData, setChartData] = useState([
     { type: "", rent: 30, sale: 10 },
     { type: "", rent: 20, sale: 0},

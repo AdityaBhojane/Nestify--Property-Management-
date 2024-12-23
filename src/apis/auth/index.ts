@@ -1,3 +1,4 @@
+import { ErrorHandler } from '@/helper/ErrorHandler';
 import axios from '../../config/axiosConfig'
 
 interface Idata {
@@ -28,8 +29,7 @@ export const signInRequest = async({email,password}:Idata)=>{
         });
         return response.data?.data
     } catch (error) {
-        console.log("sign in ERROR ::-" , error);
-        throw error
+        ErrorHandler(error)
     }
 }
 

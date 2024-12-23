@@ -10,6 +10,7 @@ import useSignup from "@/hooks/apis/auth/useSignup"
 
 import { Loader2 } from "lucide-react"
 import { OtpModel } from "../OTP Model/OtpModel"
+import { validateEmail } from "@/helper/emailValidator"
 
 export default function SignUpForm({
   className,
@@ -19,7 +20,8 @@ export default function SignUpForm({
 
   const {data,isPending,isSuccess,signUpMutation} = useSignup();
   const [validation,setValidation] = useState(false);
-  const [openModel, setOpenModel] = useState(false)
+  const [openModel, setOpenModel] = useState(false);
+  const [handleError, setErrorText] = useState("")
   const [form,setForm] = useState({
     username:'',
     email:'',
@@ -29,11 +31,23 @@ export default function SignUpForm({
 
   const handleSubmit = async(e:MouseEvent<HTMLButtonElement>)=>{
     e.preventDefault();
-    if(!form.username|| !form.email || !form.password){
-      console.log("all fields are required");
-      setValidation(true);
-      return;
-    };
+     if (!form.email || !form.password || !form.username) {
+          console.log('username and password is required');
+          setErrorText("email and password is required")
+          setValidation(true);
+          return;
+        }
+        if (!validateEmail(form.email)) {
+          setErrorText("invalid email format");
+          setValidation(true);
+          return;
+        }
+        if (form.password.length < 6) {
+          setErrorText("password must contain at least 6 characters");
+          setValidation(true);
+          return;
+        }
+    
     signUpMutation({
       username:form.username,
       email:form.email,
@@ -97,7 +111,7 @@ export default function SignUpForm({
                 <Input id="password" type="password" placeholder="Enter your password" required onChange={(e)=> setForm({...form,password:e.target.value})} />
               </div> 
               <div className="w-full h-2">
-                {validation && <p className="text-sm text-red-600 font-semibold">All fields are required</p>}
+                {validation && <p className="text-sm text-red-600 font-semibold">{handleError}</p>}
               </div>
               <Button onClick={handleSubmit} type="submit" className="w-full">
                 Sign Up

@@ -10,51 +10,73 @@ import useSignin from "@/hooks/apis/auth/useSignin"
 import { Loader2 } from "lucide-react"
 import { useDispatch } from "react-redux"
 import { setAuthData } from "@/redux/slice/authSlice"
+import { validateEmail } from "@/helper/emailValidator"
 
 
 export default function SignInForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
-    const navigate = useNavigate();
-    const [validation,setValidation] = useState(false);
-    const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [validation, setValidation] = useState(false);
+  const [handleError, setErrorText] = useState("")
+  const dispatch = useDispatch();
 
-    const [form, setForm] = useState({
-      email:'',
-      password:''
-    });
+  const [form, setForm] = useState({
+    email: '',
+    password: ''
+  });
 
-    const {data,isPending, isSuccess, SigninMutation} = useSignin()
+  const { data, isPending, isSuccess, SigninMutation, isError, error } = useSignin()
 
-    const handleSignin = async(e:MouseEvent<HTMLButtonElement>)=>{
-      e.preventDefault();
-      if(!form.email || !form.password){
-        console.log('username and password is required');
-        setValidation(true)
-        return;
-      };
-      setValidation(false);
-      SigninMutation({
-        email:form.email,
-        password:form.password
-      })
+  const handleSignin = async (e: MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    if (!form.email || !form.password) {
+      console.log('username and password is required');
+      setErrorText("email and password is required")
+      setValidation(true);
+      return;
+    }
+    if (!validateEmail(form.email)) {
+      setErrorText("invalid email format");
+      setValidation(true);
+      return;
+    }
+    if (form.password.length < 6) {
+      setErrorText("password must contain at least 6 characters");
+      setValidation(true);
+      return;
     }
 
-     useEffect(()=>{
-        if(isSuccess){
-          dispatch(setAuthData({user:data?.username,token:data?.token}))
-          setTimeout(() => {
-            navigate('/dashboard')
-          }, 3000);
-        };
-    
-      },[isSuccess,navigate])
-   
+    setValidation(false);
+    SigninMutation({
+      email: form.email,
+      password: form.password
+    })
+
+  }
+
+  useEffect(() => {
+    if (isSuccess) {
+      dispatch(setAuthData({ user: { email: data?.username, id: data?.id }, token: data?.token }))
+      setTimeout(() => {
+        navigate('/dashboard')
+      }, 3000);
+    };
+
+  }, [isSuccess, navigate])
+
+  useEffect(() => {
+    if (isError && error) {
+      setErrorText(error? "check email and password":"try again ...");
+      setValidation(true);
+    };
+  }, [isError, error])
+
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
-      
+
       <Card className="overflow-hidden">
         <CardContent className="grid p-0 md:grid-cols-2">
           <form className="p-6 md:p-8">
@@ -72,7 +94,7 @@ export default function SignInForm({
                   type="email"
                   placeholder="m@example.com"
                   required
-                  onChange={(e)=> setForm({...form,email:e.target.value})}
+                  onChange={(e) => setForm({ ...form, email: e.target.value })}
                 />
               </div>
               <div className="grid gap-2">
@@ -85,18 +107,18 @@ export default function SignInForm({
                     Forgot your password?
                   </a>
                 </div>
-                <Input id="password" type="password" required onChange={(e)=> setForm({...form,password:e.target.value})} />
+                <Input id="password" type="password" required onChange={(e) => setForm({ ...form, password: e.target.value })} />
               </div>
               <div className="w-full h-2">
-                {validation && <p className="text-sm text-red-600 ">username and password is required</p>}
+                {validation && <p className="text-sm text-red-600 ">{handleError}</p>}
               </div>
-                <Button
-                 onClick={handleSignin}
-                 type="submit" 
-                 className="w-full">
-                    Sign in
-                    {isPending && <Loader2 className="animate-spin" />}
-                </Button>
+              <Button
+                onClick={handleSignin}
+                type="submit"
+                className="w-full">
+                Sign in
+                {isPending && <Loader2 className="animate-spin" />}
+              </Button>
               <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
                 <span className="relative z-10 bg-background px-2 text-muted-foreground">
                   Or continue with
@@ -116,7 +138,7 @@ export default function SignInForm({
               </div>
               <div className="text-center text-sm font-thin">
                 Don&apos;t have an account?{" "}
-                <span onClick={()=>navigate('/signup')} className="underline underline-offset-4 cursor-pointer">
+                <span onClick={() => navigate('/signup')} className="underline underline-offset-4 cursor-pointer">
                   Sign up
                 </span>
               </div>

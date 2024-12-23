@@ -21,7 +21,7 @@ export const createProperty = async ({
     PropertyType
 }: IPropertyData) => {
     try {
-        const response = axios.post('/property/create', {
+        const response = await axios.post('/property/create', {
             name,
             description,
             images,
@@ -30,7 +30,7 @@ export const createProperty = async ({
             purpose,
             PropertyType
         });
-        return response
+        return response.data?.data
     } catch (error) {
         console.log("create property ERROR ::-", error);
         throw error
@@ -49,7 +49,7 @@ export const updateProperty = async ({
 
 }: IPropertyData) => {
     try {
-        const response = axios.post(`/property/${id}`, {
+        const response = await axios.post(`/property/${id}`, {
             name,
             description,
             images,
@@ -58,7 +58,7 @@ export const updateProperty = async ({
             purpose,
             PropertyType
         });
-        return response
+        return response.data?.data
     } catch (error) {
         console.log("update property ERROR ::-", error);
         throw error
@@ -68,10 +68,10 @@ export const updateProperty = async ({
 
 export const deleteProperty = async ({userId, propertyId}:{userId:string, propertyId:string}) => {
     try {
-        const response = axios.post(`/property/${userId}`, {
+        const response = await axios.post(`/property/${userId}`, {
             propertyId
         });
-        return response;
+        return response.data?.data;
     } catch (error) {
         console.log("delete property ERROR ::-", error);
         throw error
@@ -81,12 +81,12 @@ export const deleteProperty = async ({userId, propertyId}:{userId:string, proper
 
 export const getProperty = async (token:string) => {
     try {
-        const response = axios.get('/property',{
+        const response = await axios.get('/property',{
             headers:{
                 'token':token
             }
         });
-        return (await response).data?.data
+        return response.data?.data
     } catch (error) {
         console.log("get property ERROR ::-", error);
         throw error

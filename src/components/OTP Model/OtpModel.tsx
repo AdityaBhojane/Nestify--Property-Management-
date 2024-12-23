@@ -34,7 +34,7 @@ export function OtpModel({ model, setModel, userId }: { model: boolean, setModel
     useEffect(()=>{
     if(isSuccess && data.response){
       setTimeout(() => {
-        navigate('/signin')
+        navigate('/signin') 
       }, 3000);
     };
 

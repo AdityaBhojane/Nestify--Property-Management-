@@ -1,6 +1,8 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Mail, Phone, MapPin, Briefcase, Pencil } from "lucide-react";
+import { useDispatch } from "react-redux";
+import { setUserModal } from "@/redux/slice/modalSlice";
 
 type ProfileCardProps = {
   name: string;
@@ -19,17 +21,20 @@ export default function ProfileCard({
   email,
   imageUrl,
 }: ProfileCardProps) {
+
+  const dispatch = useDispatch();
+
   return (
     <Card className="max-w-full m-5 ">
       <CardContent className="p-6 flex flex-col items-center text-center md:text-left md:flex-row md:items-start gap-6">
-        <Avatar className="w-30 h-30">
-          <AvatarImage src={imageUrl} alt={name} />
+        <Avatar className="w-36 h-36">
+          <AvatarImage src={imageUrl} alt={name} className="min-w-36" />
           <AvatarFallback>PR</AvatarFallback>
         </Avatar>
 
         <div className="flex flex-col space-y-3 select-none">
           <div>
-            <h2 className="text-2xl font-bold">{name}</h2>
+            <h2 className="text-2xl font-bold pb-2">{name}</h2>
             <p className="text-gray-500 flex items-center gap-2">
               <Briefcase size={16} />
               {role}
@@ -51,7 +56,7 @@ export default function ProfileCard({
             </div>
           </div>
         </div>
-      <Pencil className="text-slate-400 size-5 cursor-pointer"/>
+      <Pencil onClick={()=> dispatch(setUserModal())} className="text-slate-400 size-5 cursor-pointer"/>
       </CardContent>
     </Card>
   );

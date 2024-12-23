@@ -18,7 +18,8 @@ export default function Dashboard() {
   const agents = parseInt(statistic?.totalAgents)
   const customer = parseInt(statistic?.totalCustomers)
   const properties = parseInt(statistic?.totalProperties)
-  const cities = parseInt(statistic?.totalCities)
+  const cities = parseInt(statistic?.totalCities);
+
 
   useEffect(()=>{
     if(statistic || agents && customer){

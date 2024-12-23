@@ -6,7 +6,7 @@ interface AgentCardProps {
   name: string;
   role: string;
   email: string;
-  phone: string;
+  phone?: string;
   location: string;
   propertiesCount: number;
   imageUrl: string;
@@ -45,7 +45,7 @@ export function AgentCard({
         </div>
           <div className="flex items-center gap-2 text-gray-500 mt-2 text-sm">
             <Phone className="w-4 h-4" />
-            <span>{phone}</span>
+            <span>{phone? phone:"Not available"}</span>
           </div>
 
         <div className="flex flex-col md:flex-row md:gap-4 mt-2 text-gray-500 text-sm">

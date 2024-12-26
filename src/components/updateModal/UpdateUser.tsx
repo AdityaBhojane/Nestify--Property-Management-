@@ -10,7 +10,7 @@ import {
     DialogTitle,
 } from "@/components/ui/dialog"
 
-import { MouseEvent, useEffect, useState } from "react"
+import { MouseEvent, useState } from "react"
 
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
@@ -38,12 +38,12 @@ export function UpdateUser() {
     const updateUserModal = useSelector((state: RootState) => state.modal.updateUserModal);
     const dispatch = useDispatch();
 
-    const { updateUser, isPending, isSuccess, error } = useUpdateUser();
+    const { updateUser, isPending,  } = useUpdateUser();
 
     const [formData, setFormData] = useState<FormData>({
         username: "",
         city: "",
-        phone: '',
+        phone: "",
         images: null
     });
 
@@ -58,26 +58,16 @@ export function UpdateUser() {
         };
         setValidation(false);
 
-        const filteredData = {}
+        const filteredData = {} as { [key: string]: string | number | null | File };
 
-        for (const key in formData) {
-            if (formData[key]) {
-                filteredData[key] = formData[key]
+        for(const key  in formData) {
+            if (formData[key as keyof FormData]) {
+                filteredData[key as keyof FormData] = formData[key as keyof FormData]
             }
         };
-        
+        console.log(filteredData)
         updateUser({ userData: filteredData })
     };
-
-
-    //     useEffect(()=>{
-    //     if(isSuccess && data.response){
-    //       setTimeout(() => {
-    //         navigate('/signin') 
-    //       }, 3000);
-    //     };
-
-    //   },[isSuccess,navigate,data])
 
 
     return (

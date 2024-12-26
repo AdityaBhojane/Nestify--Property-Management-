@@ -1,8 +1,13 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { Mail, Phone, MapPin, Building2, MoreHorizontal } from "lucide-react";
+import { Mail, Phone, MapPin, Building2, MessageCircleMore } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import useCreateChat from "@/hooks/apis/chat/useCreateChat";
+import { useEffect } from "react";
+
 
 interface AgentCardProps {
+  id:string | null,
   name: string;
   role: string;
   email: string;
@@ -12,7 +17,9 @@ interface AgentCardProps {
   imageUrl: string;
 }
 
+
 export function AgentCard({
+  id,
   name,
   role,
   email,
@@ -21,6 +28,35 @@ export function AgentCard({
   propertiesCount,
   imageUrl,
 }: AgentCardProps) {
+
+  const navigate = useNavigate();
+
+  const {createChatHandler, isSuccess, error } = useCreateChat()
+
+  const handleMessageConversation = ()=>{
+    createChatHandler({senderId:id})
+  }
+
+
+  useEffect(()=>{
+    if(isSuccess){
+      setTimeout(() => {
+        navigate('/messages')
+      }, 2000);
+    }
+  },[isSuccess,navigate])
+
+  useEffect(()=>{
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    //@ts-ignore
+    if(error?.error== "already exits"){
+      setTimeout(() => {
+        navigate('/messages')
+      }, 2000);
+    }
+  },[error,navigate])
+
+
   return (
     <Card className="flex md:flex-row items-center p-4 m-2 gap-6 shadow-sm">
       {/* Avatar Section */}
@@ -61,7 +97,7 @@ export function AgentCard({
       </CardContent>
 
       {/* Menu Icon */}
-      <MoreHorizontal className="text-gray-400 cursor-pointer hidden md:block" />
+      <MessageCircleMore onClick={handleMessageConversation} className="text-gray-400 cursor-pointer " />
     </Card>
   );
 }

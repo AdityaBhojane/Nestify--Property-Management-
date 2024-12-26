@@ -3,6 +3,7 @@ import Cookies from 'js-cookie'
 
 
 const initialState = {
+    userId: Cookies.get('userId') || null ,
     token: Cookies.get('token') || null 
 };
 
@@ -12,7 +13,9 @@ const authSlice = createSlice({
     reducers: {
         setAuthData(state, action) {
             state.token = action.payload.token; 
-            Cookies.set('token', action.payload.token);
+            state.userId = action.payload.userId
+            Cookies.set('token', action.payload.token,{ expires: 7, secure: true });
+            Cookies.set('userId', action.payload.userId,{ expires: 7, secure: true });
         },
         clearAuthData(state) {
             state.token = null;

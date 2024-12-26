@@ -13,11 +13,11 @@ const modalSlice = createSlice({
         setUserModal:(state)=>{
             state.updateUserModal = !state.updateUserModal
         },
-        setPriorityModal:(state)=>{
+        setPropertyModal:(state)=>{
             state.updatePropertyModal = !state.updatePropertyModal
         }
     }
 });
 
-export const {setUserModal, setPriorityModal} = modalSlice.actions;
+export const {setUserModal, setPropertyModal} = modalSlice.actions;
 export default modalSlice.reducer

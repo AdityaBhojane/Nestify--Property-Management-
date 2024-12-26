@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 
 interface Agent {
-  id: string | null;
+  _id: string | null;
   email: string;
   properties: string[] | number[];
   username: string;
@@ -16,6 +16,8 @@ interface Agent {
 export default function AgentPage() {
 const { agents, isFetching, isError } = useAgentData();
 const navigate = useNavigate();
+
+console.log(agents)
   
 const defaultLocation = "India";
 
@@ -35,7 +37,8 @@ const defaultLocation = "India";
       </div>} 
       {agents?.map((agent: Agent) => (
         <AgentCard
-          key={agent.id || `fallback-key-${agent.email}`}
+          key={agent._id || `fallback-key-${agent.email}`}
+          id={agent._id}
           name={agent.username}
           role="Real-Estate Agent"
           email={agent.email}

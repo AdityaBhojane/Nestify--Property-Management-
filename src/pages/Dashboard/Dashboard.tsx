@@ -2,8 +2,10 @@ import { BarChartMix } from "@/components/BarChart/BarChartMix";
 import { Chart } from "@/components/Chart/Chart";
 import { PiChart } from "@/components/pi Chart/PiChart";
 import { useStatistic } from "@/hooks/apis/auth/useStatistic";
+import { RootState } from "@/redux/store";
 import { LoaderCircle } from "lucide-react";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 
@@ -22,6 +24,9 @@ export default function Dashboard() {
   const properties = parseInt(statistic?.totalProperties)
   const cities = parseInt(statistic?.totalCities);
   const navigate = useNavigate();
+
+  const adminToken = useSelector((state:RootState)=> state.authAdmin.adminToken);
+  console.log(adminToken)
 
 
   useEffect(()=>{

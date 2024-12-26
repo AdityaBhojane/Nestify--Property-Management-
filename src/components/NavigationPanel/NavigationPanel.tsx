@@ -1,5 +1,5 @@
 import * as React from "react"
-import { CircleUserRound, LandPlot, LayoutDashboard, LogIn, LogOut, MessageSquareText, School, User } from "lucide-react"
+import { CircleUserRound, LandPlot, LayoutDashboard, LogOut, MessageSquareText, School, User } from "lucide-react"
 
 import {
     Sidebar,
@@ -14,6 +14,7 @@ import {
 import { Link } from "react-router-dom"
 import { useDispatch } from "react-redux"
 import { clearAuthData } from "@/redux/slice/authSlice"
+import { clearAdminAuthData } from "@/redux/slice/adminAuthSlice"
 
 
 
@@ -49,22 +50,18 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 icon: <CircleUserRound />
             },
             {
-                title: "Login as Admin",
-                url: "/auth/admin",
-                icon: <LogIn />,
-                style:"text-green-500"
-            },
-            {
                 title: "Logout",
                 url: "/signin",
                 icon: <LogOut />,
                 style:"text-red-500 ",
                 event:()=>{
                     dispatch(clearAuthData())
+                    dispatch(clearAdminAuthData())
                 }
             },
         ],
-    }
+    };
+    
     return (
         <>
             <Sidebar {...props}>

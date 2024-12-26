@@ -6,7 +6,7 @@ interface UserData  {
     username?: string;
     city?: string;
     phone?: string;
-    image?: File | null
+    images?: File | null
 }
 
 interface UserProps {
@@ -49,7 +49,7 @@ export const deleteUserById = async ({token}:UserProps)=>{
 export const updateUserById = async ({userData,token}:UserProps)=>{
     console.log(userData)
     try {
-        if(userData?.image){
+        if(userData?.images){
             const response = await axios.put(`/user`,userData,{headers:{
                 "token":token,
                 'Content-Type': 'multipart/form-data',

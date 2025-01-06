@@ -1,9 +1,10 @@
 import { Avatar } from "../Avatar/Avatar";
 
 interface Participant {
-    participantsId?: {
-    image?: string;
-    username?: string;
+  participantsId?: {
+      _id?: string;
+      image?: string;
+      username?: string;
   };
 }
 
@@ -30,7 +31,7 @@ export const ChatSideBar = ({ participants, setSenderId, setParticipantsData }:
               key={index}
               className="flex items-center gap-4 p-2 hover:bg-gray-200 dark:hover:bg-gray-700 rounded cursor-pointer"
               onClick={() => {
-                setSenderId(user.participantsId?._id);
+                setSenderId(user.participantsId?._id || "");
                 setParticipantsData({ username: user.participantsId?.username || "", images: user.participantsId?.image || `https://api.dicebear.com/9.x/initials/svg?seed=${user.participantsId?.username}` })
               }}
             >

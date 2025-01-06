@@ -35,10 +35,10 @@ const MessagePanel = () => {
       setIsError(false)
     };
     if(chatList){
-      setList(chatList)
+      setList(chatList.participants)
     };
     if(usersChats){
-      setList(usersChats)
+      setList(usersChats.participants)
     }
   },[isAdminListFetching,isAdminListError, isUserChatFetching,isUserChatError,chatList,usersChats])
 
@@ -66,7 +66,7 @@ const MessagePanel = () => {
         button={true}
       />}
       {list?.length != 0 && <>
-        <ChatSideBar participants={list?.participants} setSenderId={setSenderId} setParticipantsData={setParticipantsData} />
+        <ChatSideBar participants={list} setSenderId={setSenderId} setParticipantsData={setParticipantsData} />
         {senderId? <ChatWindow participantId={senderId} participantsData={participantsData} />:
         <StartConversation
           title={'Start Your Conversation'}

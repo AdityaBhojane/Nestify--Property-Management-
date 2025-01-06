@@ -10,6 +10,7 @@ import MessagePanel from "@/pages/Message/MessagePanel";
 import ProfilePage from "@/pages/Profile/ProfilePage";
 import PropertiesPage from "@/pages/Properties/PropertiesPage";
 import PropertyAdmin from "@/pages/Properties/PropertyAdmin";
+import Welcome from "@/pages/Welcome/Welcome";
 import { Route, Routes } from "react-router-dom";
 
 
@@ -17,6 +18,7 @@ export default function AppRoutes() {
   return (
     <>
       <Routes>
+        <Route path="/" element={<Welcome />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/signin" element={<SignIn />} />
         <Route path="/auth/admin" element={<AdminSignIn />} />

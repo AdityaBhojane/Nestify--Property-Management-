@@ -32,7 +32,7 @@ export default function PropertyAdmin() {
       <div className="grid grid-cols-2 h-screen p-5 max-xl:grid-cols-1 bg-[#f0efef] dark:bg-[#202020]">
         {properties?.property?.map((property: { _id: Key | null | undefined; name: string; images: string; location: string; price: string; }) => {
           return (
-            <div className="flex h-fit border border-[#7c7c7c] dark:border-white rounded-xl" key={property._id}>
+            <div className="flex h-fit border border-[#7c7c7c] dark:border-white rounded-xl mx-2" key={property._id}>
               <PropertyCard
                 name={property.name}
                 image={property.images}

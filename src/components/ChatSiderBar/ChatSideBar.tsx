@@ -1,7 +1,7 @@
 import { Avatar } from "../Avatar/Avatar";
 
 interface Participant {
-  participantsId?: {
+    participantsId?: {
     image?: string;
     username?: string;
   };
@@ -16,6 +16,7 @@ export const ChatSideBar = ({ participants, setSenderId, setParticipantsData }:
       images: string;
     }>>
   }) => {
+
 
   return (
     <aside className="w-full h-[calc(100vh-4rem)] md:w-1/3 lg:w-1/4 bg-gray-100 dark:bg-gray-800 p-4 border-r">

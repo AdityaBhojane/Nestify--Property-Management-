@@ -18,57 +18,57 @@ export default function SignUpForm({
 }: React.ComponentProps<"div">) {
   const navigate = useNavigate();
 
-  const {data,isPending,isSuccess,signUpMutation} = useSignup();
-  const [validation,setValidation] = useState(false);
+  const { data, isPending, isSuccess, signUpMutation } = useSignup();
+  const [validation, setValidation] = useState(false);
   const [openModel, setOpenModel] = useState(false);
   const [handleError, setErrorText] = useState("")
-  const [form,setForm] = useState({
-    username:'',
-    email:'',
-    password:''
+  const [form, setForm] = useState({
+    username: '',
+    email: '',
+    password: ''
   });
 
 
-  const handleSubmit = async(e:MouseEvent<HTMLButtonElement>)=>{
+  const handleSubmit = async (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-     if (!form.email || !form.password || !form.username) {
-          console.log('username and password is required');
-          setErrorText("email and password is required")
-          setValidation(true);
-          return;
-        }
-        if (!validateEmail(form.email)) {
-          setErrorText("invalid email format");
-          setValidation(true);
-          return;
-        }
-        if (form.password.length < 6) {
-          setErrorText("password must contain at least 6 characters");
-          setValidation(true);
-          return;
-        }
-    
+    if (!form.email || !form.password || !form.username) {
+      console.log('username and password is required');
+      setErrorText("email and password is required")
+      setValidation(true);
+      return;
+    }
+    if (!validateEmail(form.email)) {
+      setErrorText("invalid email format");
+      setValidation(true);
+      return;
+    }
+    if (form.password.length < 6) {
+      setErrorText("password must contain at least 6 characters");
+      setValidation(true);
+      return;
+    }
+
     signUpMutation({
-      username:form.username,
-      email:form.email,
-      password:form.password
+      username: form.username,
+      email: form.email,
+      password: form.password
     })
 
   };
 
-  useEffect(()=>{
-    if(isSuccess){
+  useEffect(() => {
+    if (isSuccess) {
       setTimeout(() => {
         setOpenModel(true)
       }, 2000);
     }
-  },[isSuccess,data])
+  }, [isSuccess, data])
 
- 
+
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
-      <OtpModel model={openModel} setModel={setOpenModel} userId={data?.id}/>
+      <OtpModel model={openModel} setModel={setOpenModel} userId={data?.id} />
       <Card className="overflow-hidden">
         <CardContent className="grid p-0 md:grid-cols-2">
           <form className="p-6 md:p-8">
@@ -85,7 +85,7 @@ export default function SignUpForm({
                   type="text"
                   placeholder="Enter your username"
                   required
-                  onChange={(e)=> setForm({...form,username:e.target.value})}
+                  onChange={(e) => setForm({ ...form, username: e.target.value })}
                 />
               </div>
               <div className="grid gap-2">
@@ -95,7 +95,7 @@ export default function SignUpForm({
                   type="email"
                   placeholder="m@example.com"
                   required
-                  onChange={(e)=> setForm({...form,email:e.target.value})}
+                  onChange={(e) => setForm({ ...form, email: e.target.value })}
                 />
               </div>
               <div className="grid gap-2">
@@ -108,8 +108,8 @@ export default function SignUpForm({
                     Forgot your password?
                   </a>
                 </div>
-                <Input id="password" type="password" placeholder="Enter your password" required onChange={(e)=> setForm({...form,password:e.target.value})} />
-              </div> 
+                <Input id="password" type="password" placeholder="Enter your password" required onChange={(e) => setForm({ ...form, password: e.target.value })} />
+              </div>
               <div className="w-full h-2">
                 {validation && <p className="text-sm text-red-600 font-semibold">{handleError}</p>}
               </div>
@@ -121,22 +121,12 @@ export default function SignUpForm({
                 <span className="relative z-10 bg-background px-2 text-muted-foreground">
                   Or continue with
                 </span>
-              </div>
-              <div className="w-full">
-                <Button variant="outline" className="w-full">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                    <path
-                      d="M12.48 10.92v3.28h7.84c-.24 1.84-.853 3.187-1.787 4.133-1.147 1.147-2.933 2.4-6.053 2.4-4.827 0-8.6-3.893-8.6-8.72s3.773-8.72 8.6-8.72c2.6 0 4.507 1.027 5.907 2.347l2.307-2.307C18.747 1.44 16.133 0 12.48 0 5.867 0 .307 5.387.307 12s5.56 12 12.173 12c3.573 0 6.267-1.173 8.373-3.36 2.16-2.16 2.84-5.213 2.84-7.667 0-.76-.053-1.467-.173-2.053H12.48z"
-                      fill="currentColor"
-                    />
-                  </svg>
-                  <span className="sr-only">Login with Google</span>
-                  Login with Google
-                </Button>
-              </div>
+              </div>  
               <div className="text-center text-sm font-thin">
+              <span className="text-sm text-yellow-500">Note : Guest Login in Available on sign in</span>
+              <br />
                 Already have an account?{" "}
-                <span onClick={()=>navigate('/signin')} className="underline underline-offset-4 cursor-pointer">
+                <span onClick={() => navigate('/signin')} className="underline underline-offset-4 cursor-pointer">
                   Sign in
                 </span>
               </div>

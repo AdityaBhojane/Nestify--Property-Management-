@@ -6,13 +6,14 @@ import { useNavigate } from 'react-router-dom';
 export default function ProtectedRoute({ children }: { children: React.ReactNode }) {
 
   const token = useSelector((state: RootState) => state.auth.token);
+  const adminToken = useSelector((state: RootState) => state.authAdmin.adminToken);
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!token) {
+    if (!token && !adminToken) {
       navigate('/signin')
     }
-  }, [token,navigate])
+  }, [token,navigate, adminToken])
 
   return (
     <>

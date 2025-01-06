@@ -1,29 +1,77 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { useEffect, useState } from "react";
 import socket from "@/utils/socket";
-import { useEffect } from "react";
 
+export const useSocket = (userId: string, participantId: string) => {
+  const [isConnected, setIsConnected] = useState(false);
+  const [currentRoomId, setCurrentRoomId] = useState<string | null>(null);
 
-interface NewMessage {
-    body: string;
-    userId: string;
-    senderId: string;
-}
+  useEffect(() => {
+    if (!socket.connected) {
+      socket.connect();
+    }
 
-export const useSocket = (participantId: string, onNewMessage: (message: NewMessage) => void) => {
-    useEffect(() => {
-        // Connect socket
-        if (!socket.connected) {
-            socket.connect();
-        }
+    socket.on("connect", () => {
+      console.log("Connected to server");
+      setIsConnected(true);
 
-        // Listen for new messages
-        socket.on("NewMessageReceivedEvent", (message: NewMessage) => {
-            console.log("New message received:", message);
-            onNewMessage(message);
+      if (userId) {
+        socket.emit("RegisterUser", userId);
+      }
+    });
+
+    socket.on("disconnect", () => {
+      console.log("Disconnected from server");
+      setIsConnected(false);
+    });
+
+    return () => {
+      if (socket.connected) {
+        socket.disconnect();
+      }
+    };
+  }, [userId]);
+
+  useEffect(() => {
+    if (userId && participantId) {
+      // Leave the previous room if it exists
+      if (currentRoomId) {
+        socket.emit("LEAVE_PRIVATE_CHAT", currentRoomId, (response: any) => {
+          if (response.success) {
+            console.log(`Left room: ${currentRoomId}`);
+          } else {
+            console.error(response.message);
+          }
         });
+      }
 
-        // Cleanup to avoid duplicate listeners
-        return () => {
-            socket.off("NewMessageReceivedEvent");
-        };
-    }, [participantId, onNewMessage]);
+      // Join a new room
+      const newRoomId = [userId, participantId].sort().join("_");
+      setCurrentRoomId(newRoomId);
+
+      socket.emit(
+        "JOIN_PRIVATE_CHAT",
+        { userAId: userId, userBId: participantId },
+        (response: any) => {
+          if (response.success) {
+            console.log(`Joined room: ${response.roomId}`);
+          } else {
+            console.error(response.message);
+          }
+        }
+      );
+    }
+
+    return () => {
+      if (currentRoomId) {
+        socket.emit("LEAVE_PRIVATE_CHAT", currentRoomId, (response: any) => {
+          if (response.success) {
+            console.log(`Cleaned up room: ${currentRoomId}`);
+          }
+        });
+      }
+    };
+  }, [userId, participantId, currentRoomId]);
+
+  return { socket, isConnected, participantId };
 };

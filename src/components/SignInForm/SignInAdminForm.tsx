@@ -6,11 +6,13 @@ import { Label } from "@/components/ui/label"
 import loginImage from "@/assets/login.webp"
 import { useNavigate } from "react-router-dom"
 import { MouseEvent, useEffect, useState } from "react"
-import useSignin from "@/hooks/apis/auth/useSignin"
 import { Loader2 } from "lucide-react"
 import { useDispatch } from "react-redux"
-import { setAuthData } from "@/redux/slice/authSlice"
 import { validateEmail } from "@/helper/emailValidator"
+import useAdminSignin from "@/hooks/apis/auth/useAdminSignIn"
+import { setAdminAuthData } from "@/redux/slice/adminAuthSlice"
+import useSignin from "@/hooks/apis/auth/useSignin"
+import { setAuthData } from "@/redux/slice/authSlice"
 
 
 export default function SignInAdminForm({
@@ -27,7 +29,8 @@ export default function SignInAdminForm({
     password: ''
   });
 
-  const { data, isPending, isSuccess, SigninMutation, isError, error } = useSignin()
+  const { data, isPending, isSuccess, SigninMutation: adminSignIn, isError, error } = useAdminSignin()
+  const { data:userData, SigninMutation, isSuccess:isSuccessUser} = useSignin()
 
   const handleSignin = async (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -58,22 +61,31 @@ export default function SignInAdminForm({
 
   useEffect(() => {
     if (isSuccess) {
-      dispatch(setAuthData({ userId: data?.id , token: data?.token }))
+      dispatch(setAdminAuthData({ userId: data?.id, token: data?.token }))
       setTimeout(() => {
-        navigate('/dashboard')
+        navigate('/dashboard/admin')
       }, 3000);
     };
 
-  }, [data?.id, data?.token, dispatch, isSuccess, navigate])
+  }, [data?.id, data?.token, dispatch, isSuccess, navigate]);
+  
+  
+  useEffect(() => {
+      if (isSuccessUser) {
+        dispatch(setAuthData({ userId: userData?.id, token: userData?.token }))
+      };
+  
+    }, [userData?.id, userData?.token, dispatch, isSuccessUser, navigate])
 
   useEffect(() => {
     if (isError && error) {
-      setErrorText(error? "check email and password":"try again ...");
+      setErrorText(error ? "check email and password" : "try again ...");
       setValidation(true);
     };
   }, [isError, error])
 
 
+   console.log(isSuccessUser)
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
 
@@ -119,11 +131,24 @@ export default function SignInAdminForm({
                 Sign in
                 {isPending && <Loader2 className="animate-spin" />}
               </Button>
-              <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
+              <div className="relative text-center  text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
                 <span className="relative z-10 bg-background px-2 text-muted-foreground">
                   Or continue with
                 </span>
               </div>
+              <Button onClick={() => {
+                SigninMutation({
+                  email: "natvarp6062@gmail.com",
+                  password: "p12345"
+                })
+                  adminSignIn({
+                    email: "natvarp6062@gmail.com",
+                    password: "p12345"
+                  });
+                
+              }} variant="outline" className="w-full">
+                Guest Login admin
+              </Button>
               <div className="text-center text-sm font-thin">
                 Back to dashboard ?{" "}
                 <span onClick={() => navigate('/dashboard')} className="underline underline-offset-4 cursor-pointer">

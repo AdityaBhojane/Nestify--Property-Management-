@@ -3,15 +3,16 @@ import Cookies from 'js-cookie'
 
 
 const initialState = {
-    adminId: Cookies.get('userId') || null ,
-    adminToken: Cookies.get('token') || null 
+    adminId: Cookies.get('adminId') || null ,
+    adminToken: Cookies.get('adminToken') || null,
+    isAdmin: Boolean(Cookies.get('adminToken') || null),
 };
 
 const authAdminSlice = createSlice({
     name: 'authAdmin',
     initialState,
     reducers: {
-        setAuthData(state, action) {
+        setAdminAuthData(state, action) {
             state.adminToken = action.payload.token; 
             state.adminId = action.payload.userId
             Cookies.set('adminToken', action.payload.token,{ expires: 7, secure: true });
@@ -24,5 +25,5 @@ const authAdminSlice = createSlice({
     },
 });
 
-export const { setAuthData, clearAdminAuthData } = authAdminSlice.actions;
+export const { setAdminAuthData, clearAdminAuthData } = authAdminSlice.actions;
 export default authAdminSlice.reducer;

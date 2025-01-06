@@ -18,7 +18,20 @@ export const createChat = async (token:string, senderId: string | null) => {
 
 export const getChat = async (token:string) => {
     try {
-        const response = await axios.get(`/chat`,{
+        const response = await axios.get(`/getChat`,{
+            headers:{
+                "token":token
+            }
+        });
+        return response.data.data;
+    } catch (error) {
+        console.log(error);
+        ErrorHandler(error)
+    }
+};
+export const getAdminChat = async (token:string) => {
+    try {
+        const response = await axios.get(`/userChat`,{
             headers:{
                 "token":token
             }

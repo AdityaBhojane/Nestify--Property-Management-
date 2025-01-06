@@ -1,3 +1,4 @@
+import NavPanelContainerAdmin from "@/components/NavigationAdmin/NavigationAdminContainer";
 import NavPanelContainer from "@/components/NavigationPanel/NavPanelContainer";
 import ProtectedRoute from "@/components/protectedRoute/ProtectedRoute";
 import AgentPage from "@/pages/Agent/AgentPage";
@@ -8,6 +9,7 @@ import Dashboard from "@/pages/Dashboard/Dashboard";
 import MessagePanel from "@/pages/Message/MessagePanel";
 import ProfilePage from "@/pages/Profile/ProfilePage";
 import PropertiesPage from "@/pages/Properties/PropertiesPage";
+import PropertyAdmin from "@/pages/Properties/PropertyAdmin";
 import { Route, Routes } from "react-router-dom";
 
 
@@ -18,6 +20,12 @@ export default function AppRoutes() {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/signin" element={<SignIn />} />
         <Route path="/auth/admin" element={<AdminSignIn />} />
+        {/* Admin */}
+        <Route path="/dashboard/admin" element={<ProtectedRoute><NavPanelContainerAdmin children={<Dashboard />} /></ProtectedRoute>} />
+        <Route path="/properties/admin" element={<ProtectedRoute><NavPanelContainerAdmin children={<PropertyAdmin />} /></ProtectedRoute>} />
+        <Route path="/messages/admin" element={<ProtectedRoute><NavPanelContainerAdmin children={<MessagePanel />} /></ProtectedRoute>} />
+        <Route path="/profile/admin" element={<ProtectedRoute><NavPanelContainerAdmin children={<ProfilePage />} /></ProtectedRoute>} />
+        {/* User */}
         <Route path="/dashboard" element={<ProtectedRoute><NavPanelContainer children={<Dashboard />} /></ProtectedRoute>} />
         <Route path="/properties" element={<ProtectedRoute><NavPanelContainer children={<PropertiesPage />} /></ProtectedRoute>} />
         <Route path="/agents" element={<ProtectedRoute><NavPanelContainer children={<AgentPage />} /></ProtectedRoute>} />

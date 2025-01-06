@@ -1,25 +1,26 @@
-import { signInRequest } from "@/apis/auth";
+import { signInAdminRequest } from "@/apis/auth";
 import { useToast } from "@/hooks/use-toast"
 import { useMutation } from "@tanstack/react-query";
 
 
 
 
-const useSignin = () =>{
+const useAdminSignin = () =>{
     const {toast} = useToast();
 
     const {data,isPending, isSuccess, isError, mutateAsync:SigninMutation, error} = useMutation({
-        mutationFn:signInRequest,
-        onSuccess:()=>{
+        mutationFn:signInAdminRequest,
+        onSuccess:(data)=>{
+            console.log('data a',data);
             toast({
-                title:"Sign up success",
+                title:"Admin Sign up success",
                 description:"redirecting to home page"
             })
         },
         onError:(error)=>{
             console.log("error",error);
             toast({
-                title:"something is wrong",
+                title:"something is wrong with admin server",
                 description:"internal server error"
             })
         }
@@ -35,4 +36,4 @@ const useSignin = () =>{
     }
 };
 
-export default useSignin
+export default useAdminSignin

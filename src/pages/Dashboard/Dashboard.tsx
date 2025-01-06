@@ -26,7 +26,9 @@ export default function Dashboard() {
   const navigate = useNavigate();
 
   const adminToken = useSelector((state:RootState)=> state.authAdmin.adminToken);
-  console.log(adminToken)
+  const token = useSelector((state:RootState)=> state.auth.token);
+
+  console.log('data',adminToken, 'id', token);
 
 
   useEffect(()=>{

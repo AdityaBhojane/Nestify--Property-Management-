@@ -9,7 +9,8 @@ interface IPropertyData {
     location: string
     purpose: string
     PropertyType: string
-}
+};
+
 
 export const createProperty = async ({
     name,
@@ -35,7 +36,8 @@ export const createProperty = async ({
         console.log("create property ERROR ::-", error);
         throw error
     }
-}
+};
+
 
 export const updateProperty = async ({
     id,
@@ -63,7 +65,8 @@ export const updateProperty = async ({
         console.log("update property ERROR ::-", error);
         throw error
     }
-}
+};
+
 
 
 export const deleteProperty = async ({userId, propertyId}:{userId:string, propertyId:string}) => {
@@ -76,12 +79,28 @@ export const deleteProperty = async ({userId, propertyId}:{userId:string, proper
         console.log("delete property ERROR ::-", error);
         throw error
     }
-}
+};
+
 
 
 export const getProperty = async (token:string) => {
     try {
         const response = await axios.get('/property',{
+            headers:{
+                'token':token
+            }
+        });
+        return response.data?.data
+    } catch (error) {
+        console.log("get property ERROR ::-", error);
+        throw error
+    }
+};
+
+
+export const getPropertyById = async (token:string) => {
+    try {
+        const response = await axios.get('/property/me',{
             headers:{
                 'token':token
             }

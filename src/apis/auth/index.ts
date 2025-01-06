@@ -33,7 +33,7 @@ export const signInRequest = async({email,password}:Idata)=>{
     }
 }
 
-export const signUpAdminRequest = async({email,password}:Idata)=>{
+export const signInAdminRequest = async({email,password}:Idata)=>{
     try {
         const response = await axios.post('/auth/admin',{
             email,

@@ -2,7 +2,7 @@
     "rewrites": [
       {
         "source": "/(.*)", 
-        "destination": "/"
+        "destination": "https://property-management-backend-mfg1.onrender.com/api/v1"
       }
     ]
   }

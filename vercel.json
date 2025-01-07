@@ -1,8 +1,9 @@
 {
-  "rewrites": [
-    {
-      "source": "/api/:path*",
-      "destination": "https://your-backend-url.com/api/:path*"
-    }
-  ]
-}
+    "rewrites": [
+      {
+        "source": "/(.*)", 
+        "destination": "/"
+      }
+    ]
+  }
+  

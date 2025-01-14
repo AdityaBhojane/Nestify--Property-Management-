@@ -21,7 +21,7 @@ export const useUpdateUser = ()=>{
             toast({
                 title:"update successfully",
                 description:"user updated !"
-            })
+            });
         },
         onError:()=>{
             toast({

@@ -11,7 +11,6 @@ import {
 } from "@/components/ui/dialog"
 
 import { MouseEvent, useState } from "react"
-
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { setUserModal } from "@/redux/slice/modalSlice";
@@ -32,13 +31,12 @@ interface FormData {
 export function UpdateUser() {
 
     const [validation, setValidation] = useState(false);
-
     // const { isPending, isSuccess, data, OtpMutation } = useOTP();
 
     const updateUserModal = useSelector((state: RootState) => state.modal.updateUserModal);
     const dispatch = useDispatch();
 
-    const { updateUser, isPending,  } = useUpdateUser();
+    const { updateUser, isPending } = useUpdateUser();
 
     const [formData, setFormData] = useState<FormData>({
         username: "",
@@ -46,6 +44,7 @@ export function UpdateUser() {
         phone: "",
         images: null
     });
+
 
 
 

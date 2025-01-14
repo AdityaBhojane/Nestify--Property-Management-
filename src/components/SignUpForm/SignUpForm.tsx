@@ -59,10 +59,11 @@ export default function SignUpForm({
   useEffect(() => {
     if (isSuccess) {
       setTimeout(() => {
-        setOpenModel(true)
+        // setOpenModel(true)
+        navigate('/signin') 
       }, 2000);
     }
-  }, [isSuccess, data])
+  }, [isSuccess, navigate])
 
 
 

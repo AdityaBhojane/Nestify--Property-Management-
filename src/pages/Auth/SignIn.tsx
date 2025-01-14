@@ -9,6 +9,9 @@ export default function SignIn() {
         <ModeToggle />
       </div>
       <div className="w-full max-w-sm md:max-w-3xl">
+        <span className="text-red-600">Notice: Backend might enter sleep mode. Check and wake it up 
+          <a className="text-blue-600 mx-2 font-bold" href="https://property-management-backend-fp49.onrender.com/ping">here</a>
+        </span>
         <SignInForm />
       </div>
     </div>
